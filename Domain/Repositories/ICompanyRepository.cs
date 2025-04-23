@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Company;
+﻿using Domain.CompanyAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

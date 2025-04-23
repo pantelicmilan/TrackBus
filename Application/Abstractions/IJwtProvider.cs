@@ -1,5 +1,5 @@
-﻿using Domain.Entities.Company;
-using Domain.Entities.Driver;
+﻿using CompanyDomain = Domain.CompanyAggregate;
+using Domain.DriverAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,6 @@ namespace Application.Abstractions;
 
 public interface IJwtProvider
 {
-    public string Generate(Company company);
+    public string Generate(CompanyDomain.Company company);
     public string Generate(Driver driver);
 }

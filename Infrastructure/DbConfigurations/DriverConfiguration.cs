@@ -1,5 +1,5 @@
-﻿using Domain.Entities.Company;
-using Domain.Entities.Driver;
+﻿using Domain.CompanyAggregate;
+using Domain.DriverAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

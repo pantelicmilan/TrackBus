@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities.Ride;
+namespace Domain.Ride;
 
 public class AvailableRideDay : Entity
 {

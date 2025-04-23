@@ -1,6 +1,6 @@
 ﻿using Domain.Primitives;
 
-namespace Domain.Entities.Driver;
+namespace Domain.DriverAggregate;
 
 public class Driver : AggregateRoot
 {

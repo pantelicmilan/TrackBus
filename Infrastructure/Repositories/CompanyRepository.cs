@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Company;
+﻿using Domain.CompanyAggregate;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -52,5 +52,6 @@ public class CompanyRepository : ICompanyRepository
             _context.Company.Update(existingCompany);
         }
     }
+
 
 }

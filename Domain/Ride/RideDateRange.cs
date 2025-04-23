@@ -1,6 +1,6 @@
 ﻿using PratiBus.Primitives;
 
-namespace Domain.Entities.Ride;
+namespace Domain.Ride;
 
 // testovi da li radi createDateRange na ocekivani nacin (from to poredjenje)
 //testovi za jednakost 2 ride date range value objekta, ili ti da li je Equals dobro izveden
