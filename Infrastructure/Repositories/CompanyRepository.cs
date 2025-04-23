@@ -1,6 +1,6 @@
-﻿using Domain.Repositories;
+﻿using Domain.Entities.Company;
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using PratiBus.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

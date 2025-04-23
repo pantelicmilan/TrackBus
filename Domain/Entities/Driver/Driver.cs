@@ -1,6 +1,6 @@
 ﻿using Domain.Primitives;
 
-namespace PratiBus.Domain.Entities;
+namespace Domain.Entities.Driver;
 
 public class Driver : AggregateRoot
 {

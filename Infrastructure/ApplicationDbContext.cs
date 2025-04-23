@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PratiBus.Domain.Entities;
+﻿using Domain.Entities.Company;
+using Domain.Entities.Driver;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 

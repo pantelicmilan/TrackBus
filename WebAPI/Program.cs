@@ -1,3 +1,7 @@
+
+using Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+var connectionString = "Host=localhost;Port=5432;Database=trackbus;Username=postgres;Password=root";
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => {
+    options.UseNpgsql(connectionString);
+});
 
 var app = builder.Build();
 

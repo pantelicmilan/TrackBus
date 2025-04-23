@@ -1,7 +1,7 @@
 ﻿using Domain.Primitives;
 using PratiBus.Primitives;
 
-namespace PratiBus.Domain.Entities;
+namespace Domain.Entities.Company;
 
 public class Company : AggregateRoot
 {

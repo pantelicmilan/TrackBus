@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Entities.Company;
+using Domain.Entities.Driver;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PratiBus.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

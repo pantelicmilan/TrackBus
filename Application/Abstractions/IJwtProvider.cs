@@ -1,4 +1,5 @@
-﻿using PratiBus.Domain.Entities;
+﻿using Domain.Entities.Company;
+using Domain.Entities.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
-﻿using Domain.Repositories;
-using PratiBus.Domain.Entities;
+﻿using Domain.Entities.Driver;
+using Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
