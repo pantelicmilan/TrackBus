@@ -2,9 +2,11 @@
 using Domain.Repositories;
 using MediatR;
 using Application.Abstractions;
+using Domain.CompanyAggregate;
+using Application.Exceptions;
 namespace Application.Company.Commands.CreateCompany;
 
-public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand>
+public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand, int>
 {
     private readonly ICompanyRepository _companyRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -18,16 +20,26 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand>
     {
         _companyRepository = companyRepository;
         _unitOfWork = unitOfWork;
+        _hashingProvider = hashingProvider;
     }
 
-    public async Task Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
     {
-        _companyRepository.CreateCompany(
-            DomainCompany.Company.Create(
+        var existingCompany = await _companyRepository.GetCompanyByUsername(request.companyUsername);
+
+        if (existingCompany != null)
+        {
+            throw new UsernameAlreadyExistsException(request.companyUsername);
+        }
+            
+        var company = DomainCompany.Company.Create(
                 request.companyName,
                 _hashingProvider.Hash(request.companyPassword),
                 request.companyUsername
-            ));
+        );
+
+        _companyRepository.CreateCompany(company);
         await _unitOfWork.SaveChanges();
+        return company.Id;
     }
 }

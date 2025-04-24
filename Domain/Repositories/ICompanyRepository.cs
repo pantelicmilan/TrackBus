@@ -13,6 +13,7 @@ public interface ICompanyRepository
     public void CreateCompany(Company company);
     public void DeleteCompany(int companyId);
     public void UpdateCompany(Company company);
+    public Task<Company> GetCompanyByUsername(string username);
 
     // New methods to be implemented
 

@@ -40,6 +40,12 @@ public class CompanyRepository : ICompanyRepository
         return await _context.Company.FirstOrDefaultAsync(c => c.Id == companyId);
     }
 
+    public async Task<Company> GetCompanyByUsername(string username)
+    {
+        var company = await _context.Company.FirstOrDefaultAsync(c => c.CompanyUsername == username);
+        return company;
+    }
+
     //
     public void UpdateCompany(Company company)
     {
@@ -52,6 +58,5 @@ public class CompanyRepository : ICompanyRepository
             _context.Company.Update(existingCompany);
         }
     }
-
 
 }

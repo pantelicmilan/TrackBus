@@ -1,4 +1,5 @@
-﻿using Application.Company.Commands.CreateCompany;
+﻿using Application.Company.Commands.AuthenticateCompany;
+using Application.Company.Commands.CreateCompany;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +18,17 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task Post([FromBody] CreateCompanyCommand createCompany)
+        public async Task<int> CreateCompany([FromBody] CreateCompanyCommand createCompany)
         {
-            await _sender.Send(createCompany);
+            int result = await _sender.Send(createCompany);
+            return result;
+        }
+
+        [HttpPost("/auth")]
+        public async Task<AuthenticateCompanyResponse> Login([FromBody] AuthenticateCompanyCommand authCompany) 
+        {
+            var result = await _sender.Send(authCompany);
+            return result;
         }
 
     }

@@ -7,4 +7,4 @@ using System.Threading.Tasks;
 
 namespace Application.Company.Commands.CreateCompany;
 
-public record CreateCompanyCommand(string companyName, string companyUsername, string companyPassword) : IRequest;
+public record CreateCompanyCommand(string companyName, string companyUsername, string companyPassword) : IRequest<int>;

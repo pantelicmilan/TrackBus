@@ -3,6 +3,7 @@ using Domain.Repositories;
 using Infrastructure.Authentication;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,18 @@ namespace Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = "Host=localhost;Port=5432;Database=trackbus;Username=postgres;Password=root";
-
         services.AddDbContext<ApplicationDbContext>(options => {
-            options.UseNpgsql(connectionString);
+            options.UseNpgsql(configuration.GetConnectionString("DatabaseConnection"));
         });
 
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<IDriverRepository, DriverRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IHashingProvider, HashingProvider>();
+        services.AddScoped<IJwtProvider, JwtProvider>();
+        services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
         return services;
     }
 }
