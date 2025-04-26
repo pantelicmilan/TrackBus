@@ -20,9 +20,22 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
+    try
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            db.Database.Migrate(); // SAMO PRIMENJUJE MIGRACIJE NA BAZU
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error applying migrations: {ex.Message}");
+        throw; // Fail fast u developmentu
+    }
     app.MapOpenApi();
     app.MapScalarApiReference();
-
 }
 
 app.UseHttpsRedirection();
