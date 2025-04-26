@@ -14,10 +14,6 @@ COPY ["Application/Application.csproj", "Application/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 
-# Install dotnet-ef tool in the SDK build stage
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="${PATH}:/root/.dotnet/tools"
-
 RUN dotnet restore "./WebAPI/WebAPI.csproj"
 COPY . . 
 WORKDIR "/src/WebAPI"
@@ -35,9 +31,6 @@ WORKDIR /app
 
 # Copy the published application from the previous stage
 COPY --from=publish /app/publish . 
-
-COPY --from=build /root/.dotnet/tools /root/.dotnet/tools
-ENV PATH="${PATH}:/root/.dotnet/tools"
 
 COPY WebAPI/entrypoint.sh ./entrypoint.sh
 
