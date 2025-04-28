@@ -1,4 +1,19 @@
 ﻿services:
+  frontend:
+    build:
+      context: ./TrackBusFrontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://webapi:8080
+    volumes:
+      - ./TrackBusFrontend:/app
+      - /app/node_modules
+    depends_on:
+      - webapi
+    restart: unless-stopped
+
   webapi:
     build:
       context: "./TrackBusAPI"
