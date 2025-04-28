@@ -32,8 +32,5 @@ WORKDIR /app
 # Copy the published application from the previous stage
 COPY --from=publish /app/publish . 
 
-COPY WebAPI/entrypoint.sh ./entrypoint.sh
-
 USER root
-RUN chmod +x ./entrypoint.sh
 ENTRYPOINT ["dotnet","WebAPI.dll"]
