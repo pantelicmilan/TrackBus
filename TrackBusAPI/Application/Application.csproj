@@ -11,12 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Company\Commands\EditCompany\" />
     <Folder Include="Company\Queries\" />
     <Folder Include="DTOs\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
   </ItemGroup>
 
 </Project>

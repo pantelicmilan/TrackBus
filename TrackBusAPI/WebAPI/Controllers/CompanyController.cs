@@ -1,7 +1,10 @@
 ﻿using Application.Company.Commands.AuthenticateCompany;
 using Application.Company.Commands.CreateCompany;
+using Infrastructure.Authentication;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,6 +32,13 @@ namespace WebAPI.Controllers
         {
             var result = await _sender.Send(authCompany);
             return result;
+        }
+
+        [Authorize(Policy = PolicyList.AdminPolicy)]
+        [HttpGet("/test")]
+        public async Task<string> TestAuthorization()
+        {
+            return "sss";
         }
 
     }

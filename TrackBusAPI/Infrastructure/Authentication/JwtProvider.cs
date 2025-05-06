@@ -1,6 +1,7 @@
 ﻿using Application.Abstractions;
 using Domain.CompanyAggregate;
 using Domain.DriverAggregate;
+using Domain.ValueObjects;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -37,8 +38,9 @@ public class JwtProvider : IJwtProvider
         var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, company.Id.ToString()),
-                new("companyUsername", company.CompanyUsername),
-                new("userType", "company")
+                new(JwtClaimsList.CompanyUsername, company.CompanyUsername),
+                new(JwtClaimsList.UserType, "company"),
+                new(ClaimTypes.Role, Role.Admin)
             };
 
         return GenerateToken(claims);
