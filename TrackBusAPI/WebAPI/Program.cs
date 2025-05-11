@@ -1,4 +1,4 @@
-
+﻿
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Application;
@@ -13,14 +13,28 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddHttpContextAccessor();
 
+
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy
+            .WithOrigins("https://localhost:7177")  // Specifičan origin
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();  // Omogući kolačiće
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-
     try
     {
         using (var scope = app.Services.CreateScope())
@@ -38,6 +52,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
+app.UseCors("AllowAll");
 app.UseInfrastructure();
 
 app.MapControllers();

@@ -12,7 +12,7 @@ public interface ICompanyRepository
     public Task<Company> GetCompanyById(int companyId);
     public void CreateCompany(Company company);
     public void DeleteCompany(int companyId);
-    public void UpdateCompany(Company company);
+    public Task UpdateCompany(Company company);
     public Task<Company> GetCompanyByUsername(string username);
 
     // New methods to be implemented

@@ -27,11 +27,7 @@ public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand,
     {
         var existingCompany = await _companyRepository.GetCompanyByUsername(request.companyUsername);
 
-        if (existingCompany != null)
-        {
-            throw new UsernameAlreadyExistsException(request.companyUsername);
-        }
-            
+
         var company = DomainCompany.Company.Create(
                 request.companyName,
                 _hashingProvider.Hash(request.companyPassword),

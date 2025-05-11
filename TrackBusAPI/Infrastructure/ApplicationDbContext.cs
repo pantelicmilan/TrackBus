@@ -1,5 +1,6 @@
 ﻿using Domain.CompanyAggregate;
 using Domain.DriverAggregate;
+using Domain.RefreshToken;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
@@ -8,7 +9,7 @@ public class ApplicationDbContext : DbContext
 {
     public DbSet<Company> Company { get; set; }
     public DbSet<Driver> Driver { get; set; }
-
+    public DbSet<RefreshToken> RefreshToken { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }

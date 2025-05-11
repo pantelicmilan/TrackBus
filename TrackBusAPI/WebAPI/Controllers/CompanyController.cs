@@ -1,5 +1,6 @@
 ﻿using Application.Company.Commands.AuthenticateCompany;
 using Application.Company.Commands.CreateCompany;
+using Application.Company.Commands.RefreshCompanyAuth;
 using Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,13 @@ namespace WebAPI.Controllers
         public async Task<AuthenticateCompanyResponse> Login([FromBody] AuthenticateCompanyCommand authCompany) 
         {
             var result = await _sender.Send(authCompany);
+            return result;
+        }
+
+        [HttpPost("/refresh")]
+        public async Task<RefreshCompanyAuthResponse> RefreshAuth([FromBody] RefreshCompanyAuthCommand refreshCompany) 
+        {
+            var result = await _sender.Send(refreshCompany);
             return result;
         }
 

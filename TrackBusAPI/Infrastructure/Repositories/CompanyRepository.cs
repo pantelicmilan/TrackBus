@@ -47,9 +47,9 @@ public class CompanyRepository : ICompanyRepository
     }
 
     //
-    public void UpdateCompany(Company company)
+    public async Task UpdateCompany(Company company)
     {
-        var existingCompany = _context.Company.FirstOrDefault(c => c.Id == company.Id);
+        var existingCompany = await _context.Company.FirstOrDefaultAsync(c => c.Id == company.Id);
         if (existingCompany != null)
         {
             existingCompany.UpdateCompanyName(company.CompanyName);

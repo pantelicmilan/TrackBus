@@ -51,9 +51,11 @@ public static class DependencyInjection
 
         services.AddScoped<ICompanyRepository, CompanyRepository>();
         services.AddScoped<IDriverRepository, DriverRepository>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IHashingProvider, HashingProvider>();
         services.AddScoped<IJwtProvider, JwtProvider>();
+        services.AddScoped<IRefreshTokenProvider, RefreshTokenProvider>();
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 
 

@@ -12,4 +12,6 @@ public interface IJwtProvider
 {
     public string Generate(CompanyDomain.Company company);
     public string Generate(Driver driver);
+    public bool IsJwtSignedByServer(string jwt);
+    public string GetPayloadFromJwtToken(string jwtToken, string propertyName);
 }
