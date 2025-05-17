@@ -3,17 +3,13 @@ using PratiBus.Primitives;
 
 namespace Domain.CompanyAggregate;
 
-public class Company : AggregateRoot
+public class Company : User
 {
     public string CompanyName { get; private set; }
-    public string CompanyUsername { get; private set; }
-    public string CompanyPassword { get; private set; }
-
-    private Company(string companyName, string companyPassword, string companyUsername)
+    protected Company() { }
+    private Company(string companyName, string companyPassword, string companyUsername) : base(companyUsername, companyPassword)
     {
         CompanyName = companyName;
-        CompanyPassword = companyPassword;
-        CompanyUsername = companyUsername;
     }
 
     public static Company Create(string companyName, string companyPassword, string companyUsername)
@@ -35,7 +31,7 @@ public class Company : AggregateRoot
         if (string.IsNullOrWhiteSpace(newCompanyUsername))
             throw new ArgumentException("Company username cannot be empty.", nameof(newCompanyUsername));
 
-        CompanyUsername = newCompanyUsername;
+        Username = newCompanyUsername;
     }
 
     public void UpdateCompanyPassword(string newCompanyPassword)
@@ -43,6 +39,6 @@ public class Company : AggregateRoot
         if (string.IsNullOrWhiteSpace(newCompanyPassword))
             throw new ArgumentException("Company password cannot be empty.", nameof(newCompanyPassword));
 
-        CompanyPassword = newCompanyPassword;
+        Password = newCompanyPassword;
     }
 }

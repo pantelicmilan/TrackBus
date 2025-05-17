@@ -14,11 +14,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 {
     public void Configure(EntityTypeBuilder<Company> builder)
     {
-        builder.HasKey(c => c.Id);
         builder.Property(c => c.CompanyName).HasMaxLength(50);
-        builder.Property(c => c.CompanyUsername).HasMaxLength(50);
-        builder.HasIndex(c => c.CompanyUsername).IsUnique();
-        builder.Property(c => c.CompanyPassword);
 
         builder.HasMany<Driver>()
                .WithOne()

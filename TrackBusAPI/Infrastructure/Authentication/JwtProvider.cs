@@ -38,10 +38,12 @@ public class JwtProvider : IJwtProvider
      
         var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Sub, company.Id.ToString()),
-                new(JwtClaimsList.CompanyUsername, company.CompanyUsername),
+            //JwtRegisteredClaimNames.Sub
+            
+                new(JwtClaimsList.Sub, company.Id.ToString()),
+                new(JwtClaimsList.Username, company.Username),
                 new(JwtClaimsList.UserType, "company"),
-                new(ClaimTypes.Role, Role.Admin)
+                new(ClaimTypes.Role, Role.Company)
             };
 
         return GenerateToken(claims);

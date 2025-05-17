@@ -42,7 +42,7 @@ public class RefreshCompanyAuthCommandHandler : IRequestHandler<RefreshCompanyAu
             throw new UnauthorizedAccessException("Jwt is not signed by server!'");
         }
 
-        var companyIdPayload = _jwtProvider.GetPayloadFromJwtToken(request.jwtToken, "sub");
+        var companyIdPayload = _jwtProvider.GetPayloadFromJwtToken(request.jwtToken, System.Security.Claims.ClaimTypes.NameIdentifier);
 
         try
         {
@@ -61,7 +61,7 @@ public class RefreshCompanyAuthCommandHandler : IRequestHandler<RefreshCompanyAu
         if (refreshTokenCookie == null) throw new ArgumentException("No refresh token!");
 
         var refreshTokens = await _refreshTokenRepository
-            .GetAllRefreshTokenByCompanyId(companyId: companyId);
+            .GetAllRefreshTokenByUserId(companyId: companyId);
         if (refreshTokens.Count() == 0) throw new Exception("Refresh token does not exist!");
 
         var validRefreshToken = refreshTokens
@@ -83,7 +83,7 @@ public class RefreshCompanyAuthCommandHandler : IRequestHandler<RefreshCompanyAu
         if (company == null) throw new Exception("Company not found!");
 
         _refreshTokenRepository.AddRefreshToken(RefreshToken.CreateRefreshToken(
-            ConsumerIdentity.CreateConsumerIdentity(null, companyId),
+            companyId,
             userAgent,
             _hashingProvider.Hash(generatedRefreshToken)
         ));

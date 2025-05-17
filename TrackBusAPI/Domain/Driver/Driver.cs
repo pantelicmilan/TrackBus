@@ -2,16 +2,13 @@
 
 namespace Domain.DriverAggregate;
 
-public class Driver : AggregateRoot
+public class Driver : User
 {
     public int CompanyId { get; private set; }
-    public string DriverName { get; private set; }
-    public string DriverPassword { get; private set; }
 
-    private Driver(string driverName, string driverPassword)
+    private Driver() { }
+    private Driver(string driverName, string driverPassword) :base( driverName, driverPassword )
     {
-        DriverName = driverName;
-        DriverPassword = driverPassword;
     }
 
     public static Driver CreateDriver(string driverName, string driverPassword)
@@ -24,14 +21,14 @@ public class Driver : AggregateRoot
     {
         if (string.IsNullOrWhiteSpace(newDriverName))
             throw new ArgumentException("Driver name cannot be empty.", nameof(newDriverName));
-            DriverName = newDriverName;
+            Username = newDriverName;
     }
 
     public void UpdateDriverPassword(string newDriverPassword)
     {
         if (string.IsNullOrWhiteSpace(newDriverPassword))
             throw new ArgumentException("Driver password cannot be empty.", nameof(newDriverPassword));
-            DriverPassword = newDriverPassword;
+            Password = newDriverPassword;
     }
 
 }

@@ -14,21 +14,12 @@ public class DriverConfiguration : IEntityTypeConfiguration<Driver>
 {
     public void Configure(EntityTypeBuilder<Driver> builder)
     {
-
-        // Configure the primary key
-        builder.HasKey(d => d.Id);
        
         builder.HasOne<Company>()
              .WithMany()
             .HasForeignKey(d => d.CompanyId)
 
             .OnDelete(DeleteBehavior.Cascade);
-        builder.Property(d => d.DriverName)
-            .IsRequired()
-            .HasMaxLength(50);
-
-        builder.Property(d => d.DriverPassword)
-            .IsRequired()
-            .HasMaxLength(50);
+    
     }
 }

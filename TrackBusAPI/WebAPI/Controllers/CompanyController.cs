@@ -1,5 +1,6 @@
 ﻿using Application.Company.Commands.AuthenticateCompany;
 using Application.Company.Commands.CreateCompany;
+using Application.Company.Commands.DeleteCompany;
 using Application.Company.Commands.RefreshCompanyAuth;
 using Infrastructure.Authentication;
 using MediatR;
@@ -42,12 +43,20 @@ namespace WebAPI.Controllers
             return result;
         }
 
-        [Authorize(Policy = PolicyList.AdminPolicy)]
+        [Authorize(Policy = PolicyList.ShouldBeCompanyPolicy)]
         [HttpGet("/test")]
         public async Task<string> TestAuthorization()
         {
             return "sss";
         }
+
+        [HttpDelete]
+        public async Task<Unit> DeleteCompany()
+        {
+            return await _sender.Send(new DeleteCompanyCommand());
+        }
+
+
 
     }
 }

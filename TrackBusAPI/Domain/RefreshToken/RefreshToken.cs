@@ -10,13 +10,13 @@ public class RefreshToken : AggregateRoot
     private RefreshToken(
         string token, 
         DateTime expiration, 
-        ConsumerIdentity consumerIdentity,
+        int userId,
         string userAgent
     )
     {
         Token = token;
         Expires = expiration;
-        ConsumerIdentity = consumerIdentity;
+        UserId = userId;
         UserAgent = userAgent;
     }
     public bool IsActive => !IsExpired && RevokedAt == null;
@@ -24,16 +24,16 @@ public class RefreshToken : AggregateRoot
     public string Token { get; private set; }
     public bool IsExpired => DateTime.UtcNow >= Expires;
     public DateTime Expires { get; private set; }
-    public ConsumerIdentity ConsumerIdentity { get; private set; }
+    public int UserId { get; private set; }
     public string UserAgent { get; private set; }
     public DateTime? RevokedAt { get; private set; } = null;
 
-    public static RefreshToken CreateRefreshToken(ConsumerIdentity consumerIdentity, string userAgent, string generatedRefreshToken)
+    public static RefreshToken CreateRefreshToken(int userId, string userAgent, string generatedRefreshToken)
     {
         return new RefreshToken(
             generatedRefreshToken, 
             DateTime.UtcNow.AddDays(ExpirationDays), 
-            consumerIdentity,
+            userId,
             userAgent
         );
     }

@@ -45,7 +45,7 @@ public static class DependencyInjection
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(PolicyList.AdminPolicy, policy =>
+            options.AddPolicy(PolicyList.ShouldBeCompanyPolicy, policy =>
                 policy.RequireClaim(ClaimTypes.Role, Role.Admin));
         });
 

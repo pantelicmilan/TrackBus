@@ -50,7 +50,7 @@ public class AuthenticateCompanyCommandHandler : IRequestHandler<AuthenticateCom
         }
 
         
-        if(_hashingProvider.IsPasswordValid(request.companyPassword, companyByUsername.CompanyPassword))
+        if(_hashingProvider.IsPasswordValid(request.companyPassword, companyByUsername.Password))
         {
             var userAgent = _httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString();
 
@@ -62,7 +62,7 @@ public class AuthenticateCompanyCommandHandler : IRequestHandler<AuthenticateCom
             var generatedRefreshToken = _refreshTokenProvider.GenerateRandomToken();
             
             var createdRefreshToken = RefreshToken.CreateRefreshToken(
-                    ConsumerIdentity.CreateConsumerIdentity(null, companyByUsername.Id),
+                    companyByUsername.Id,
                     userAgent,
                     _hashingProvider.Hash(generatedRefreshToken)
             );

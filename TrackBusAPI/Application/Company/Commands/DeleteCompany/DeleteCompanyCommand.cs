@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Application.Company.Commands.DeleteCompany
 {
-    public record DeleteCompanyCommand(int companyId) : IRequest<Unit>;
+    public record DeleteCompanyCommand() : IRequest<Unit>;
 }

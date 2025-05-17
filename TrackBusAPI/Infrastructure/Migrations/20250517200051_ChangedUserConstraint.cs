@@ -5,29 +5,29 @@
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Refresh_Token_Constraint_Disabled : Migration
+    public partial class ChangedUserConstraint : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Token",
-                table: "RefreshToken",
+                name: "Password",
+                table: "User",
                 type: "text",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "character varying(80)",
-                oldMaxLength: 80);
+                oldType: "character varying(50)",
+                oldMaxLength: 50);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Token",
-                table: "RefreshToken",
-                type: "character varying(80)",
-                maxLength: 80,
+                name: "Password",
+                table: "User",
+                type: "character varying(50)",
+                maxLength: 50,
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "text");

@@ -23,10 +23,10 @@ public class RefreshTokenRepository : IRefreshTokenRepository
         _context.RefreshToken.Add(refreshToken);
     }
 
-    public async Task<List<RefreshToken>> GetAllRefreshTokenByCompanyId(int companyId)
+    public async Task<List<RefreshToken>> GetAllRefreshTokenByUserId(int userId)
     {
         var refreshTokens = await _context.RefreshToken
-            .Where(rt => rt.ConsumerIdentity.CompanyId == companyId)
+            .Where(rt => rt.UserId == userId)
             .ToListAsync();
         return refreshTokens;
     }

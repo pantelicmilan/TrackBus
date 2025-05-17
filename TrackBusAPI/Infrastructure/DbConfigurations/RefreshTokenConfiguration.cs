@@ -1,4 +1,5 @@
-﻿using Domain.CompanyAggregate;
+﻿using Domain;
+using Domain.CompanyAggregate;
 using Domain.DriverAggregate;
 using Domain.RefreshToken;
 using Microsoft.EntityFrameworkCore;
@@ -33,35 +34,7 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
             .IsRequired(false);
 
         // Konfiguracija za Value Object ConsumerIdentity
-        builder.OwnsOne(rt => rt.ConsumerIdentity, ci =>
-        {
-            // Mapiranje kolona
-            ci.Property(c => c.DriverId)
-                .HasColumnName("DriverId")
-                .IsRequired(false);
-
-            ci.Property(c => c.CompanyId)
-                .HasColumnName("CompanyId")
-                .IsRequired(false);
-
-            // Relacija ka Driver entitetu
-            ci.HasOne<Driver>()
-                .WithMany()
-                .HasForeignKey(c => c.DriverId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Relacija ka Company entitetu
-            ci.HasOne<Company>()
-                .WithMany()
-                .HasForeignKey(c => c.CompanyId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Indeksi
-            ci.HasIndex(c => c.DriverId);
-            ci.HasIndex(c => c.CompanyId);
-        });
+        builder.HasOne<User>().WithMany().HasForeignKey(rt => rt.UserId);
 
         // Dodatni indeksi
         builder.HasIndex(rt => rt.Expires);

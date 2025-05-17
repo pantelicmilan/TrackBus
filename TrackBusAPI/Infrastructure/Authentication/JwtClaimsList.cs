@@ -10,7 +10,7 @@ namespace Infrastructure.Authentication;
 
 public static class JwtClaimsList
 {
-    public static string CompanyUsername = "companyUsername";
+    public static string Username = "username";
     public static string UserType = "userType";
-    public static string Sub = JwtRegisteredClaimNames.Sub;
+    public static string Sub = System.Security.Claims.ClaimTypes.NameIdentifier;
 }
