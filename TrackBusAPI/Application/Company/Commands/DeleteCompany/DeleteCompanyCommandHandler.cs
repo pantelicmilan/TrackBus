@@ -1,4 +1,5 @@
-﻿using Application.Exceptions;
+﻿using Application.Abstractions;
+using Application.Exceptions;
 using Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -10,43 +11,25 @@ namespace Application.Company.Commands.DeleteCompany
     {
         private readonly ICompanyRepository _companyRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserAuthContext _userAuthContext;
 
         public DeleteCompanyCommandHandler(
             ICompanyRepository companyRepository, 
             IUnitOfWork unitOfWork,
-            IHttpContextAccessor httpContextAccessor)
+            IUserAuthContext userAuthContext
+          )
         {
             _companyRepository = companyRepository;
             _unitOfWork = unitOfWork; 
-            _httpContextAccessor = httpContextAccessor;
+            _userAuthContext = userAuthContext;
         }
 
         public async Task<Unit> Handle(DeleteCompanyCommand request, CancellationToken cancellationToken)
         {
-            var userContext = _httpContextAccessor.HttpContext?.User;
-            if (userContext == null)
-            {
-                throw new UnauthorizedAccessException("Unauthorized Access");
-            }
-
-            foreach (var claim in userContext.Claims)
-            {
-                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
-
-            var subClaim = userContext.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-            
-            Console.WriteLine("ovo ovo: "+subClaim);
-
-            if (string.IsNullOrEmpty(subClaim) || !int.TryParse(subClaim, out int userId))
-            {
-                throw new UnauthorizedAccessException("Unauthorized Access");
-            }
-            var company = await _companyRepository.GetCompanyById(userId);
-            if (company == null) throw new CompanyNotExistException(userId);
-            _companyRepository.DeleteCompany(userId);
+            var id = _userAuthContext.Id;
+            var company = await _companyRepository.GetCompanyById(id);
+            if (company == null) throw new CompanyNotExistException(id);
+            _companyRepository.DeleteCompany(id);
             await _unitOfWork.SaveChanges();
             return Unit.Value;
             

@@ -12,4 +12,10 @@ public interface IUserAuthContext
     public int Id { get; }
     public string UserName{ get; }
     public Role Role { get; }
+
+    public string GetHeaderValue(string httpHeaderKey);
+
+    public string GetUserAgentValue();
+
+    public string GetRefreshToken();
 }

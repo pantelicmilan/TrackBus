@@ -10,29 +10,29 @@ public class RefreshCompanyAuthCommandHandler : IRequestHandler<RefreshCompanyAu
 {
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IHashingProvider _hashingProvider;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IJwtProvider _jwtProvider;
     private readonly ICompanyRepository _companyRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRefreshTokenProvider _refreshTokenProvider;
+    private readonly IUserAuthContext _userAuthContext;
 
     public RefreshCompanyAuthCommandHandler(
-        IRefreshTokenRepository refreshTokenRepository, 
-        IHashingProvider hashingProvider, 
-        IHttpContextAccessor httpContextAccessor,
-        IJwtProvider jwtProvider, 
-        ICompanyRepository companyRepository, 
+        IRefreshTokenRepository refreshTokenRepository,
+        IHashingProvider hashingProvider,
+        IJwtProvider jwtProvider,
+        ICompanyRepository companyRepository,
         IUnitOfWork unitOfWork,
-        IRefreshTokenProvider refreshTokenProvider
+        IRefreshTokenProvider refreshTokenProvider,
+        IUserAuthContext userAuthContext
         )
     {
         _refreshTokenRepository = refreshTokenRepository;
         _hashingProvider = hashingProvider;
-        _httpContextAccessor = httpContextAccessor;
         _jwtProvider = jwtProvider;
         _companyRepository = companyRepository;
         _unitOfWork = unitOfWork;
         _refreshTokenProvider = refreshTokenProvider;
+        _userAuthContext = userAuthContext;
     }
 
     public async Task<RefreshCompanyAuthResponse> Handle(RefreshCompanyAuthCommand request, CancellationToken cancellationToken)
@@ -43,7 +43,7 @@ public class RefreshCompanyAuthCommandHandler : IRequestHandler<RefreshCompanyAu
         }
 
         var companyIdPayload = _jwtProvider.GetPayloadFromJwtToken(request.jwtToken, System.Security.Claims.ClaimTypes.NameIdentifier);
-
+        if (companyIdPayload is null) throw new Exception("Id not found!");
         try
         {
             Convert.ToInt32(companyIdPayload);
@@ -55,10 +55,9 @@ public class RefreshCompanyAuthCommandHandler : IRequestHandler<RefreshCompanyAu
 
         var companyId = Convert.ToInt32(companyIdPayload);
 
-        var userAgent = _httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString();
-        var refreshTokenCookie = _httpContextAccessor.HttpContext?.Request.Cookies["refreshToken"];
-        Console.WriteLine(refreshTokenCookie);
-        if (refreshTokenCookie == null) throw new ArgumentException("No refresh token!");
+        var userAgent = _userAuthContext.GetUserAgentValue();
+        var refreshTokenCookie = _userAuthContext.GetRefreshToken();
+
 
         var refreshTokens = await _refreshTokenRepository
             .GetAllRefreshTokenByUserId(companyId: companyId);

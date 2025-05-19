@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.ValueObjects;
 
-public static class Role
+public enum Role
 {
-    public static string Admin = "Admin";
-    public static string Driver = "Driver";
-    public static string Company = "Company";
+    Admin,
+    Driver,
+    Company
 }
+

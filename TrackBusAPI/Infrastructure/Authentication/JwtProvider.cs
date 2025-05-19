@@ -43,7 +43,7 @@ public class JwtProvider : IJwtProvider
                 new(JwtClaimsList.Sub, company.Id.ToString()),
                 new(JwtClaimsList.Username, company.Username),
                 new(JwtClaimsList.UserType, "company"),
-                new(ClaimTypes.Role, Role.Company)
+                new(ClaimTypes.Role, Role.Company.ToString())
             };
 
         return GenerateToken(claims);

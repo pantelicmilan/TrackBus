@@ -17,10 +17,10 @@ public class AuthenticateCompanyCommandHandler : IRequestHandler<AuthenticateCom
     private readonly IJwtProvider _jwtProvider;
     private readonly ICompanyRepository _companyRepository;
     private readonly IHashingProvider _hashingProvider;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRefreshTokenProvider _refreshTokenProvider;
+    private readonly IUserAuthContext _userAuthContext;
 
     public AuthenticateCompanyCommandHandler(
         IJwtProvider jwtProvider,
@@ -29,16 +29,18 @@ public class AuthenticateCompanyCommandHandler : IRequestHandler<AuthenticateCom
         IHttpContextAccessor httpContextAccessor,
         IRefreshTokenRepository refreshTokenRepository,
         IUnitOfWork unitOfWork,
-        IRefreshTokenProvider refreshTokenProvider
+        IRefreshTokenProvider refreshTokenProvider,
+        IUserAuthContext userAuthContext
+
     )
     {
         _jwtProvider = jwtProvider;
         _companyRepository = companyRepository;
         _hashingProvider = hashingProvider;
-        _httpContextAccessor = httpContextAccessor;
         _refreshTokenRepository = refreshTokenRepository;
         _unitOfWork = unitOfWork;
         _refreshTokenProvider = refreshTokenProvider;
+        _userAuthContext = userAuthContext;
     }
 
     public async Task<AuthenticateCompanyResponse> Handle(AuthenticateCompanyCommand request, CancellationToken cancellationToken)
@@ -52,7 +54,7 @@ public class AuthenticateCompanyCommandHandler : IRequestHandler<AuthenticateCom
         
         if(_hashingProvider.IsPasswordValid(request.companyPassword, companyByUsername.Password))
         {
-            var userAgent = _httpContextAccessor.HttpContext?.Request.Headers["User-Agent"].ToString();
+            var userAgent = _userAuthContext.GetUserAgentValue();
 
             var authResponse = new AuthenticateCompanyResponse
             {

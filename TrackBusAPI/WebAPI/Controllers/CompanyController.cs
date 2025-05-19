@@ -51,6 +51,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<Unit> DeleteCompany()
         {
             return await _sender.Send(new DeleteCompanyCommand());

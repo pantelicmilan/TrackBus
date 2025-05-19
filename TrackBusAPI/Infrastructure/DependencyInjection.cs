@@ -46,7 +46,7 @@ public static class DependencyInjection
         services.AddAuthorization(options =>
         {
             options.AddPolicy(PolicyList.ShouldBeCompanyPolicy, policy =>
-                policy.RequireClaim(ClaimTypes.Role, Role.Admin));
+                policy.RequireClaim(ClaimTypes.Role, Role.Company.ToString()));
         });
 
         services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -56,6 +56,7 @@ public static class DependencyInjection
         services.AddScoped<IHashingProvider, HashingProvider>();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IRefreshTokenProvider, RefreshTokenProvider>();
+        services.AddScoped<IUserAuthContext, UserAuthContext>();
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 
 
